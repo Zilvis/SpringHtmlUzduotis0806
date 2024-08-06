@@ -1,10 +1,11 @@
 package dev.zilvis.springhtmluzduotis0806;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,20 +15,27 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
+    @Valid
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 10, message = "Title must be between 2 - 10")
     private String title;
 
-    @Column(nullable = false, length = 200)
+    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 200, message = "Min 2 - Max 200 chars")
     private String content;
 
-    @Column(nullable = false, length = 12)
+    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 12, message = "Contact number is not valid")
     private String contacts;
 
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 }

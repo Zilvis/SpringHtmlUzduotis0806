@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - postgres-db-network
+  spring-app:
+    container_name: spring_app
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    image: 3d6b60afde1a38612b72a286b47c9596591d17379270876832e099b4c3a7b0cd
+    build: backend
+volumes:
+  postgres-db-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data
+networks:
+  postgres-db-network:
+    driver: bridge
